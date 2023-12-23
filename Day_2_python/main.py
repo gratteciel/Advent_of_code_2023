@@ -1,37 +1,32 @@
-
+import re
 
 def main():
 
     f = open("input.txt", "r")
     red_max = 12
-    blue_max = 13
-    green_max = 14
-    sum  = 0
+    blue_max = 14
+    green_max = 13
+    sum = 0
+    for index,x in enumerate(f):
+        flag = False
 
+        for y in re.findall(r'\d+ green', x):
+            temp = int(re.sub(r' green',"",y))
+            if temp > green_max:
+                flag = True
 
-    for line in f:
-        red = 0
-        blue = 0
-        green = 0
-        words = line.split()
+        for y in re.findall(r'\d+ blue', x):
+            temp = int(re.sub(r' blue',"",y))
+            if temp > blue_max:
+                flag = True
 
-        #line number
-        line_number = words[1]
-        line_number = line_number.replace(":", "")
+        for y in re.findall(r'\d+ red', x):
+            temp = int(re.sub(r' red',"",y))
+            if temp > red_max:
+                flag = True
 
-        for i in range(len(words)):
-            #print(words[i])
-            if words[i] == "red":
-                print(words[i-1])
-                red = int(words[i-1]) + red
-            if words[i] == "blue":
-                blue = int(words[i-1]) + blue
-                #print("on line" + line_number + "equals to " + str(blue))
-            if words[i] == "green":
-                green = int(words[i-1]) + green
-
-        if red > red_max and blue > blue_max and green > green_max:
-            sum += line_number
+        if flag == False:
+            sum += index + 1
 
     print(sum)
 
